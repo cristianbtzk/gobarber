@@ -3,17 +3,16 @@ import { container } from 'tsyringe';
 
 import UpdateProfileService from '@modules/users/services/UpdateProfileService';
 import ShowProfileService from '@modules/users/services/ShowProfileService';
+import { classToClass } from 'class-transformer';
 
 export default class ProfileController {
-  async show(request: Request, response: Response): Promise<User> {
+  async show(request: Request, response: Response): Promise<Response> {
     const user_id = request.user.id;
     const showProfile = container.resolve(ShowProfileService);
 
     const user = await showProfile.execute({ user_id });
 
-    delete user.password;
-
-    return response.json(user);
+    return response.json(classToClass(user));
   }
 
   async update(request: Request, response: Response): Promise<Response> {
@@ -29,8 +28,6 @@ export default class ProfileController {
       user_id,
     });
 
-    delete user.password;
-
-    return response.json(user);
+    return response.json(classToClass(user));
   }
 }
