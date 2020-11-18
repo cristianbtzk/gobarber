@@ -6,12 +6,14 @@ import { errors } from 'celebrate';
 import 'express-async-errors';
 import AppError from '@shared/errors/AppError';
 import uploadConfig from '@config/upload';
+import rateLimit from './middlewares/rateLimiter';
 import routes from './routes';
 import '@shared/infra/typeorm';
 import '@shared/container';
 
 const server = express();
 
+server.use(rateLimit);
 server.use(cors());
 
 server.use(express.json());
