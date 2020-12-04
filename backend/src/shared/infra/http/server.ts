@@ -13,11 +13,11 @@ import '@shared/container';
 
 const server = express();
 
-server.use(rateLimit);
 server.use(cors());
 
 server.use(express.json());
 server.use('/files', express.static(uploadConfig.uploadsFolder));
+server.use(rateLimit);
 server.use(routes);
 
 server.use(errors());
